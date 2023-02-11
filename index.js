@@ -23,7 +23,7 @@ app.get("/characters", async (req, res) => {
 
     return res.status(200).json(response.data);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json("ERROR MESSAGE==>" + { error: error.message });
   }
 });
 
