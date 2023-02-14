@@ -17,8 +17,17 @@ app.get("/", (req, res) => {
 
 app.get("/characters", async (req, res) => {
   try {
+    let filters = "";
+    if (req.query.name) {
+      filters = "&name=" + req.query.name;
+    }
+    let skip = "";
+    if (req.query.skip) {
+      skip = "&skip=" + req.query.skip * 100;
+    }
+
     const response = await axios.get(
-      `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${process.env.APIKEY}`
+      `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${process.env.APIKEY}${filters}${skip}`
     );
 
     return res.status(200).json(response.data);
@@ -29,7 +38,6 @@ app.get("/characters", async (req, res) => {
 
 app.get("/character/:characterId", async (req, res) => {
   try {
-    console.log(req.params.characterId);
     const response = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/character/${req.params.characterId}?apiKey=${process.env.APIKEY}`
     );
@@ -40,10 +48,31 @@ app.get("/character/:characterId", async (req, res) => {
   }
 });
 
+app.get("/related-comics"),
+  async (req, res) => {
+    try {
+      const response = await axios.get(
+        `https://lereacteur-marvel-api.herokuapp.com/character/${req.query.characterID}?apiKey=${process.env.MARVEL_API_KEY}`
+      );
+      res.status(200).json(response.data);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
 app.get("/comics", async (req, res) => {
   try {
+    let filters = "";
+    if (req.query.name) {
+      filters = "&name=" + req.query.name;
+    }
+    let skip = "";
+    if (req.query.skip) {
+      skip = "&skip=" + req.query.skip * 100;
+    }
+
     const response = await axios.get(
-      `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${process.env.APIKEY}`
+      `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${process.env.APIKEY}${filters}${skip}`
     );
     return res.status(200).json(response.data);
   } catch (error) {
