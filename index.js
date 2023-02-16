@@ -64,8 +64,8 @@ app.get("/related-comics", async (req, res) => {
 app.get("/comics", async (req, res) => {
   try {
     let filters = "";
-    if (req.query.name) {
-      filters = "&name=" + req.query.name;
+    if (req.query.title) {
+      filters = "&title=" + req.query.title;
     }
     let skip = "";
     if (req.query.skip) {
